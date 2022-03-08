@@ -4,10 +4,20 @@
     <ProjectReference Include="..\Negotiations.Application\Negotiations.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>c5d35542-6ee0-4735-90a7-532523e2e4c2</UserSecretsId>
   </PropertyGroup>
 
 </Project>
