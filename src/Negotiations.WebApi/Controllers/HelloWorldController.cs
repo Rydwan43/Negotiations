@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Negotiations.Application.Features.Products.Commands.Create;
 using Negotiations.Application.Features.Products.Queries.GetAllProducts;
@@ -7,6 +8,7 @@ namespace Negotiations.WebApi.Controllers;
 
 [ApiController]
 [Route("api/helloWorld")]
+[Authorize]
 public class HelloWorldController : ApiControllerBase
 {
     [HttpGet]

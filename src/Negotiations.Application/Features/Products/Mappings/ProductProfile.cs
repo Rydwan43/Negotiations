@@ -12,7 +12,7 @@ namespace Negotiations.Application.Features.Products.Mappings
     {
         public ProductProfile()
         {
-            CreateMap<CreateProductCommand, Product>();    
+            CreateMap<CreateProductCommand, Product>();
         }
     }
 }
