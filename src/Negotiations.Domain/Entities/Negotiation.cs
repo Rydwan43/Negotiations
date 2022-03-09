@@ -2,7 +2,7 @@ using Negotiations.Domain.Enums;
 
 namespace Negotiations.Domain.Entities
 {
-    public class NegotiationRequest
+    public class Negotiation
     {
         public int Id { get; set; }
         public string CreatedByEmail { get; set; }
