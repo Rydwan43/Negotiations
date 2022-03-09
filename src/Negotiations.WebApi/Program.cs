@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Negotiations.Application;
 using Negotiations.Infrastructure;
 using Negotiations.Infrastructure.DatabaseContext;
@@ -9,7 +10,7 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(configuration);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
