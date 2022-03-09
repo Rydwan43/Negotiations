@@ -6,6 +6,7 @@ using Negotiations.Application;
 using Negotiations.Application.Settings;
 using Negotiations.Infrastructure;
 using Negotiations.Infrastructure.DatabaseContext;
+using Negotiations.WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -38,6 +39,7 @@ builder.Services.AddAuthentication(option =>
     };
 });
 
+builder.Services.AddScoped<ErrorHandlerMiddleware>();
 builder.Services.AddAuthorization();
 
 // Add services to the container.
@@ -73,6 +75,8 @@ var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<NegotiationsSeeder>();
 
 seeder.Seed();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseAuthentication();
 
