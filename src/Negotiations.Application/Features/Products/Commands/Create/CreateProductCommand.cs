@@ -13,24 +13,31 @@ namespace Negotiations.Application.Features.Products.Commands.Create
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public decimal BasePrice { get; set; }        
+        public decimal BasePrice { get; set; }
     }
 
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
     {
         private readonly INegotiationsDbContext _dbContext;
         private readonly IMapper _mapper;
-        public CreateProductCommandHandler(INegotiationsDbContext dbContext, IMapper mapper)
+        private readonly IUserService _userService;
+        private readonly IUserContextService _userContextService;
+        public CreateProductCommandHandler(INegotiationsDbContext dbContext, IMapper mapper,
+        IUserService userService, IUserContextService userContextService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _userService = userService;
+            _userContextService = userContextService;
         }
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var newProduct = _mapper.Map<Product>(request);
+            var userId = _userContextService.GetUserId;
             
-            newProduct.CreatedByID = 1;
+            newProduct.CreatedByID = userId;
+            newProduct.CreatedAt = DateTime.UtcNow;
 
             _dbContext.Products.Add(newProduct);
 

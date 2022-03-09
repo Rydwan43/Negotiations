@@ -13,7 +13,6 @@ namespace Negotiations.Application.Features.Products.Validators
         {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.BasePrice).NotEmpty();
-            
         }
     }
 }
