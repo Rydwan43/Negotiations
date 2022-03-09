@@ -8,8 +8,8 @@ namespace Negotiations.Infrastructure.DatabaseContext
 {
     public class NegotiationsSeeder
     {
-        private readonly NegotiationsContext _dbContext;
-        public NegotiationsSeeder(NegotiationsContext dbContext)
+        private readonly NegotiationsDbContext _dbContext;
+        public NegotiationsSeeder(NegotiationsDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -21,7 +21,13 @@ namespace Negotiations.Infrastructure.DatabaseContext
             {
                 _dbContext.Database.Migrate();
             }
-            
+
+            if (!_dbContext.Users.Any())
+            {
+
+            }
         }
+
+        
     }
 }

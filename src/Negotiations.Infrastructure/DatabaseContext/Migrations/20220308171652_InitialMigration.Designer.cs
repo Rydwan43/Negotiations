@@ -11,7 +11,7 @@ using Negotiations.Infrastructure.DatabaseContext;
 
 namespace Negotiations.Infrastructure.DatabaseContext.Migrations
 {
-    [DbContext(typeof(NegotiationsContext))]
+    [DbContext(typeof(NegotiationsDbContext))]
     [Migration("20220308171652_InitialMigration")]
     partial class InitialMigration
     {
