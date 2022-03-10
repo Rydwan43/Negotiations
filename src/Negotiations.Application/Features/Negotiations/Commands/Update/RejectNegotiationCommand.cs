@@ -38,6 +38,7 @@ namespace Negotiations.Application.Features.Negotiations.Commands.Update
             }
 
             negotiation.Status = NegotiationStatus.Rejected;
+            negotiation.LastModified = DateTime.UtcNow;
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return negotiation.Id;

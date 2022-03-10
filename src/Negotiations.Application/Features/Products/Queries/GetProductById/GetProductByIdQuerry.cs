@@ -37,13 +37,13 @@ namespace Negotiations.Application.Features.Products.Queries.GetProductById
 
                 var negotiationsAccepted = product.Negotiations
                 .Where(x => x.Status == NegotiationStatus.Accepted)
-                .OrderBy(x => x.Price);
+                .OrderBy(x => x.LastModified);
 
                 var negotiationsRejected = product.Negotiations.Where(x => x.Status == NegotiationStatus.Rejected)
-                .OrderBy(x => x.Price);
+                .OrderBy(x => x.LastModified);
 
                 var negotiationsPending = product.Negotiations.Where(x => x.Status == NegotiationStatus.Pending)
-                .OrderBy(x => x.Price);
+                .OrderBy(x => x.LastModified);
                 
                 var productVM = new ProductByIdVM {
                     CurrentProduct = product,

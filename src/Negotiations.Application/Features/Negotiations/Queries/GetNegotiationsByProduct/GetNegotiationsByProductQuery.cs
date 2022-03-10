@@ -32,15 +32,15 @@ namespace Negotiations.Application.Features.Negotiations.Queries.GetNegotiations
             
             var acceptedNegotiations = negotiations
                 .Where(x => x.Status == NegotiationStatus.Accepted)
-                .OrderBy(x => x.Price);
+                .OrderBy(x => x.LastModified);
                 
             var rejectedNegotiations = negotiations
                 .Where(x => x.Status == NegotiationStatus.Rejected)
-                .OrderBy(x => x.Price);
+                .OrderBy(x => x.LastModified);
 
             var pendingNegotiations = negotiations
                 .Where(x => x.Status == NegotiationStatus.Pending)
-                .OrderBy(x => x.Price);
+                .OrderBy(x => x.LastModified);
 
             return new NegotiationsByProductVM {
                 AcceptedNegotations = acceptedNegotiations,

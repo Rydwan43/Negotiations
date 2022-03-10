@@ -21,14 +21,12 @@ namespace Negotiations.Application.Features.Products.Commands.Create
     {
         private readonly INegotiationsDbContext _dbContext;
         private readonly IMapper _mapper;
-        private readonly IUserService _userService;
         private readonly IUserContextService _userContextService;
-        public CreateProductCommandHandler(INegotiationsDbContext dbContext, IMapper mapper,
-        IUserService userService, IUserContextService userContextService)
+        public CreateProductCommandHandler(INegotiationsDbContext dbContext, IMapper mapper, 
+        IUserContextService userContextService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
-            _userService = userService;
             _userContextService = userContextService;
         }
 
