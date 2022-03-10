@@ -31,9 +31,7 @@ namespace Negotiations.Application.Features.Negotiations.Validators
             RuleFor(n => n.ProductId)
                 .NotEmpty()
                 .MustAsync(async (entity, value, c) => await VerifyProduct(entity, value))
-                .WithMessage("The product is unavailable or does not exist.")
-                .MustAsync(async (entity, value, c) => await VerifyNegotiationPrice(entity, value))
-                .WithMessage("The price cannot be twice the base price.");
+                .WithMessage("The product is unavailable or does not exist.");
         }
         public async Task<bool> VerifyProduct(CreateNegotiationCommand command, int productId)
         {
