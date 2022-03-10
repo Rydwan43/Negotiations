@@ -31,13 +31,31 @@ namespace Negotiations.Application.Features.Negotiations.Validators
             RuleFor(n => n.ProductId)
                 .NotEmpty()
                 .MustAsync(async (entity, value, c) => await VerifyProduct(entity, value))
-                .WithMessage("The product is unavailable or does not exist.");
+                .WithMessage("The product is unavailable or does not exist.")
+                .MustAsync(async (entity, value, c) => await VerifyNegotiationTimes(entity, value))
+                .WithMessage("You can't negotiate more than 3 times")
+                .MustAsync(async (entity, value, c) => await VerifyIfNegotiationPending(entity, value))
+                .WithMessage("You can't negotiate if your previous negotiation is pending");
+
         }
         public async Task<bool> VerifyProduct(CreateNegotiationCommand command, int productId)
         {
             var product  = await _dbContex.Products.FirstOrDefaultAsync(x => x.Id == productId);
             
             if (product is not null && product.Status == ProductStatus.Available)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> VerifyIfNegotiationPending(CreateNegotiationCommand command, int productId)
+        {
+            var countNegotiations  = await _dbContex.Negotiations
+                .CountAsync(x => x.ProductId == command.ProductId && x.Status == NegotiationStatus.Pending);
+
+            if (countNegotiations < 1)
             {
                 return true;
             }
