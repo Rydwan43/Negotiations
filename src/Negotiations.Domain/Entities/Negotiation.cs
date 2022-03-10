@@ -10,5 +10,7 @@ namespace Negotiations.Domain.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime? LastModified { get; set; }
         public NegotiationStatus Status { get; set; }
+
+        public int ProductId { get; set; }
     }
 }
