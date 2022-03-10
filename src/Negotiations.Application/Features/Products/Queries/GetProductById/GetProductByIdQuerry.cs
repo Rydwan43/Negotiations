@@ -6,15 +6,17 @@ using MediatR;
 using Negotiations.Application.Interfaces;
 using Negotiations.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Negotiations.Application.Exceptions;
+using Negotiations.Domain.Enums;
 
 namespace Negotiations.Application.Features.Products.Queries.GetProductById
 {
-    public class GetProductByIdQuerry : IRequest<Product>
+    public class GetProductByIdQuerry : IRequest<ProductByIdVM>
     {
         public int Id { get; set; }
     }
 
-    public class GetProductByIdQuerryHandler : IRequestHandler<GetProductByIdQuerry, Product>
+    public class GetProductByIdQuerryHandler : IRequestHandler<GetProductByIdQuerry, ProductByIdVM>
         {
             private readonly INegotiationsDbContext _dbContext;
 
@@ -22,16 +24,35 @@ namespace Negotiations.Application.Features.Products.Queries.GetProductById
             {
                 _dbContext = dbContext;
             }
-            public async Task<Product> Handle(GetProductByIdQuerry request, CancellationToken cancellationToken)
+            public async Task<ProductByIdVM> Handle(GetProductByIdQuerry request, CancellationToken cancellationToken)
             {   
-                var product = await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+                var product = await _dbContext.Products
+                .Include(r => r.Negotiations)
+                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
                 if (product is null)
                 {
-                    throw new NotImplementedException();
+                    throw new NotFoundException("Product not found");
                 }
 
-                return await Task.FromResult(product);
+                var negotiationsAccepted = product.Negotiations
+                .Where(x => x.Status == NegotiationStatus.Accepted)
+                .OrderBy(x => x.Price);
+
+                var negotiationsRejected = product.Negotiations.Where(x => x.Status == NegotiationStatus.Rejected)
+                .OrderBy(x => x.Price);
+
+                var negotiationsPending = product.Negotiations.Where(x => x.Status == NegotiationStatus.Pending)
+                .OrderBy(x => x.Price);
+                
+                var productVM = new ProductByIdVM {
+                    CurrentProduct = product,
+                    AcceptedNegotations = negotiationsAccepted,
+                    PendingNegotiations = negotiationsPending,
+                    RejectedNegotiations = negotiationsRejected
+                };
+
+                return await Task.FromResult(productVM);
             }
         }
 }

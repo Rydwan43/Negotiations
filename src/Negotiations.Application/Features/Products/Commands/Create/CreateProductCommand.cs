@@ -6,6 +6,7 @@ using AutoMapper;
 using MediatR;
 using Negotiations.Application.Interfaces;
 using Negotiations.Domain.Entities;
+using Negotiations.Domain.Enums;
 
 namespace Negotiations.Application.Features.Products.Commands.Create
 {
@@ -38,6 +39,7 @@ namespace Negotiations.Application.Features.Products.Commands.Create
             
             newProduct.CreatedByID = userId;
             newProduct.CreatedAt = DateTime.UtcNow;
+            newProduct.Status = ProductStatus.Available;
 
             _dbContext.Products.Add(newProduct);
 
