@@ -15,24 +15,24 @@ namespace Negotiations.WebApi.Middleware
             {
                 await next.Invoke(context);
             }
-            catch (ForbiddenException e)
+            catch (ForbiddenException)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
             }
-            catch (BadRequestException e)
+            catch (BadRequestException badRquest)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                await context.Response.WriteAsync(e.Message);
+                await context.Response.WriteAsync(badRquest.Message);
             }
-            catch (NotFoundException e)
+            catch (NotFoundException notFound)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                await context.Response.WriteAsync(e.Message);
+                await context.Response.WriteAsync(notFound.Message);
             }
             catch (Exception e)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await context.Response.WriteAsync("Something went wrong.");
+                await context.Response.WriteAsync("Something went wrong");
             }
         }
     }

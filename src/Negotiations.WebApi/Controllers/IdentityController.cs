@@ -22,12 +22,6 @@ namespace Negotiations.WebApi.Controllers
         public IActionResult Login([FromBody]LoginUserDto loginUser)
         {
             var token = _userService.GenerateJwt(loginUser);
-
-            if (token is null)
-            {
-                return BadRequest("Bad username or password");
-            }
-
             return Ok(token);
         }
 
