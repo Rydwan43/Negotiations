@@ -29,6 +29,11 @@ namespace Negotiations.WebApi.Middleware
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 await context.Response.WriteAsync(notFound.Message);
             }
+            catch (UnauthorizedAccessException unathorized)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                await context.Response.WriteAsync(unathorized.Message);
+            }
             catch (Exception e)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

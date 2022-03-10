@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Negotiations.Application.Features.Products.Commands.Create;
+using Negotiations.Application.Features.Products.Commands.Delete;
 using Negotiations.Application.Features.Products.Queries.GetAllProducts;
 using Negotiations.Application.Features.Products.Queries.GetProductById;
 
@@ -33,6 +34,14 @@ namespace Negotiations.WebApi.Controllers
         {
             var productId = await Mediator.Send(command);
             return Created($"/api/product/{productId}", null);
+        }
+
+        [HttpDelete("{Id}")]
+        [Authorize]
+        public async Task<ActionResult> Delete([FromRoute]DeleteProductCommand command)
+        {
+            var productId = await Mediator.Send(command);
+            return NoContent();
         }
     }
 }

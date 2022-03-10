@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Negotiations.Application.Features.Negotiations.Commands.Create;
 using Negotiations.Application.Features.Negotiations.Commands.Update;
+using Negotiations.Application.Features.Negotiations.Queries.GetNegotiationById;
 using Negotiations.Application.Features.Negotiations.Validators;
 
 namespace Negotiations.WebApi.Controllers
@@ -21,18 +22,26 @@ namespace Negotiations.WebApi.Controllers
             return Created($"/api/{command.ProductId}/negotiation/{negotiationId}", null);
         }
 
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<int>> GetById([FromRoute]GetNegotiationByIdQuery query)
+        {
+            return Ok(await Mediator.Send(query));
+        }
+
         [HttpPut("{Id}/accept")]
         [Authorize]
         public async Task<ActionResult<int>> Accept([FromRoute]AcceptNegotiationCommand command)
         {
-            return Ok(await Mediator.Send(command));
+            await Mediator.Send(command);
+            return NoContent();
         }
 
         [HttpPut("{Id}/reject")]
         [Authorize]
         public async Task<ActionResult<int>> Reject([FromRoute]RejectNegotiationCommand command)
         {
-            return Ok(await Mediator.Send(command));
+            await Mediator.Send(command);
+            return NoContent();
         }
     }
 }
