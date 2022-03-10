@@ -13,7 +13,7 @@ public class RegisterUserDtoValidatorTester
     [Fact]
     public void ShouldHaveErrorWhereEmailAddres()
     {
-
-
+        int a = 5;
+        Assert.Equal(a, 5);
     }
 }
