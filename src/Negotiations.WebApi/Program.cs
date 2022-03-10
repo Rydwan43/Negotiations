@@ -39,6 +39,8 @@ builder.Services.AddAuthentication(option =>
     };
 });
 
+builder.Services.AddCors();
+
 builder.Services.AddScoped<ErrorHandlerMiddleware>();
 builder.Services.AddAuthorization();
 
@@ -71,6 +73,12 @@ builder.Services.AddSwaggerGen(c => {
 
 var app = builder.Build();
 
+app.UseCors(x => x
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(origin => true)
+            .AllowCredentials());
+
 var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<NegotiationsSeeder>();
 
@@ -85,6 +93,7 @@ app.UseAuthentication();
 // {
 
 // }
+
 
 app.UseSwagger();
 app.UseSwaggerUI();
