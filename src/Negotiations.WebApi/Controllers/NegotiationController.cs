@@ -16,7 +16,7 @@ namespace Negotiations.WebApi.Controllers
     [Route("api/product/{ProductId}/negotiation")]
     public class NegotiationController : ApiControllerBase
     {
-        [HttpPost]
+        [HttpPost("/api/product/negotiation")]
         public async Task<ActionResult<int>> Create([FromBody]CreateNegotiationCommand command)
         {
             var negotiationId = await Mediator.Send(command);
