@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Negotiations.Application.Features.Products.Commands.Create;
 using Negotiations.Application.Features.Products.Commands.Delete;
+using Negotiations.Application.Features.Products.Commands.Update;
 using Negotiations.Application.Features.Products.Queries.GetAllProducts;
 using Negotiations.Application.Features.Products.Queries.GetProductById;
 
@@ -30,10 +31,18 @@ namespace Negotiations.WebApi.Controllers
         
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<int>> Create(CreateProductCommand command)
+        public async Task<ActionResult> Create(CreateProductCommand command)
         {
             var productId = await Mediator.Send(command);
             return Created($"/api/product/{productId}", null);
+        }
+
+        [HttpPut]
+        [Authorize]
+        public async Task<ActionResult> Update(UpdateProductCommand command)
+        {
+            await Mediator.Send(command);
+            return NoContent();
         }
 
         [HttpDelete("{Id}")]

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Negotiations.Application.Features.Negotiations.Commands.Create;
 using Negotiations.Application.Features.Negotiations.Commands.Update;
 using Negotiations.Application.Features.Negotiations.Queries.GetNegotiationById;
+using Negotiations.Application.Features.Negotiations.Queries.GetNegotiationsByProduct;
 using Negotiations.Application.Features.Negotiations.Validators;
 
 namespace Negotiations.WebApi.Controllers
@@ -20,6 +21,12 @@ namespace Negotiations.WebApi.Controllers
         {
             var negotiationId = await Mediator.Send(command);
             return Created($"/api/{command.ProductId}/negotiation/{negotiationId}", null);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<int>> GetAll([FromRoute]GetNegotiationsByProductQuery query)
+        {
+            return Ok(await Mediator.Send(query));
         }
 
         [HttpGet("{Id}")]
