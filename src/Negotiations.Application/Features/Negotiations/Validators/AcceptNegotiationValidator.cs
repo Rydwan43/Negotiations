@@ -14,10 +14,9 @@ namespace Negotiations.Application.Features.Negotiations.Validators
     {
         private readonly INegotiationsDbContext _dbContext;
         private readonly IUserContextService _userContextService;
-        public AcceptNegotiationValidator(INegotiationsDbContext dbContext, IUserContextService userContextService)
+        public AcceptNegotiationValidator(INegotiationsDbContext dbContext)
         {
             _dbContext = dbContext;
-            _userContextService = userContextService;
 
             RuleFor(n => n.Id)
                 .NotEmpty()
