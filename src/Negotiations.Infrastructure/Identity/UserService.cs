@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Negotiations.Application.Exceptions;
 using Negotiations.Application.Interfaces;
 using Negotiations.Application.Models;
 using Negotiations.Application.Settings;
@@ -36,15 +37,13 @@ namespace Negotiations.Infrastructure.Identity
 
             if (user is null)
             {
-                //Invalid username or password
-                return null;
+                throw new BadRequestException("Invalid username or password");
             }
 
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, userDto.Password);
             if (result == PasswordVerificationResult.Failed)
             {
-                //Invalid username or password
-                return null;
+                throw new BadRequestException("Invalid username or password");
             }
 
             var claims = new List<Claim>()
